@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Booking Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About US</a>
+        <a href="Catalog.html">Catalog</a>
+                <a href="Gallery.html">Gallery</a>
+        <a href="booking.html">Booking</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+    <main>
+        <img src="Photos/error.jpeg" alt="Photo 3">
+        <h2 style="color: black;"> Available Soon!!</h2>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.5.0/dist/email.min.js"></script>
+    <script>
+        // Initialize EmailJS with your public key
+        emailjs.init('jPDHNqWShXX3xUIpb');  // Replace with your actual public key
+
+        // Add form submit event listener
+        document.getElementById("bookingForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent form from submitting normally
+
+            // Get the email address from the input field
+            var userEmail = document.getElementById("userEmail").value;
+            var date = document.getElementById("date").value;
+            var time = document.getElementById("time").value;
+            var people = document.getElementById("people").value;
+            var sweets = getSelectedItems("sweets");
+            var starters = getSelectedItems("starters");
+            var maincourse = getSelectedItems("maincourse");
+
+            // Prepare the email content
+            var emailData = {
+                user_email: userEmail, // User's email
+                date: date,
+                time: time,
+                people: people,
+                sweets: sweets,
+                starters: starters,
+                maincourse: maincourse
+            };
+
+            // Send the email to the admin's email
+            emailjs.send("service_cqlzh9g", "template_tr39ut5", emailData)
+                .then(function (response) {
+                    console.log("Success:", response);
+                    alert("Form submitted successfully!");
+                }, function (error) {
+                    console.log("Error:", error);
+                    alert("Failed to send the form.");
+                });
+
+            // Send an email to the user with a confirmation
+            emailjs.send("service_cqlzh9g", "template_tr39ut5", {
+                user_email: userEmail,  // User's email
+                date: date,
+                time: time,
+                people: people,
+                sweets: sweets,
+                starters: starters,
+                maincourse: maincourse
+            })
+                .then(function (response) {
+                    console.log("Success:", response);
+                    alert("Confirmation email sent to the user!");
+                }, function (error) {
+                    console.log("Error:", error);
+                    alert("Failed to send confirmation email.");
+                });
+        });
+
+        // Function to get selected items for each category
+        function getSelectedItems(category) {
+            const selectedItems = [];
+            const items = document.querySelectorAll(`input[name="${category}"]:checked`);
+            items.forEach(item => {
+                selectedItems.push(item.value);
+            });
+            return selectedItems.join(", "); // Return selected items as a comma-separated string
+        }
+    </script>
+
+</body>
+
+</html>
