@@ -601,3 +601,20 @@ footer .email-btn:hover {
         font-size: 1rem;
     }
 }
+
+@media (max-width: 480px) {
+    nav {
+        width: 300px;
+        flex-direction: row;
+        flex-wrap: nowrap; /* Prevent line break */
+        overflow-x: auto;  /* Allow horizontal scroll if needed */
+        justify-content: flex-start;
+    }
+
+    nav a {
+        font-size: 0.9rem;    /* Slightly smaller font to fit */
+        padding: 5px 10px;    /* Reduce spacing */
+        white-space: nowrap;  /* Prevent text from wrapping */
+        flex-shrink: 0;       /* Prevent links from shrinking too much */
+    }
+}
